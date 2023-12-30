@@ -1,3 +1,6 @@
+let computer_score = 0
+let player_score = 0
+
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors"]
     let choice = Math.floor(Math.random() * choices.length)
@@ -12,42 +15,47 @@ function oneRound(player_item) {
 
     if (playerSelection == computerSelection) {
         game_text.textContent = "A tie! Play again!"
-        /*oneRound(playerSelection, computerSelection)*/
     }
 
     else if (playerSelection == "rock" & computerSelection == "paper") {
         game_text.textContent = "You lose! Paper beats rock!"
-        //console.log("You lose! Paper beats rock!")
+        computer_score = computer_score + 1
+        change_score()
         return "computer_win"
     }
 
     else if (playerSelection == "rock" & computerSelection == "scissors") {
         game_text.textContent = "You win! Rock beat scissors!"
-        //console.log("You win! Rock beats scissors!")
+        player_score = player_score + 1
+        change_score()
         return "player_win"
     }
 
     else if (playerSelection == "paper" & computerSelection == "rock") {
         game_text.textContent = "You win! Paper beats rock!"
-        //console.log("You win! Paper beats rock!")
+        player_score = player_score + 1
+        change_score()
         return "player_win"
     }
 
     else if (playerSelection == "paper" & computerSelection == "scissors") {
         game_text.textContent = "You win! Scissors beats paper!"
-        //console.log("You lose! Scissors beats paper!")
+        computer_score = computer_score + 1
+        change_score()
         return "computer_win"
     }
 
     else if (playerSelection == "scissors" & computerSelection == "paper") {
         game_text.textContent = "You win! Scissors bears paper!"
-        //console.log("You win! Scissors beats paper!")
+        player_score = player_score + 1
+        change_score()
         return "player_win"
     }
 
     else if (playerSelection == "scissors" & computerSelection == "rock") {
         game_text.textContent = "You lose! Scissors beats rock!"
-        //console.log("You lose! Scissors beats rock!")
+        computer_score = computer_score + 1
+        change_score()
         return "computer_win"
     }
 
@@ -57,49 +65,29 @@ function oneRound(player_item) {
 
 }
 
-function game() {
-    computer_score = 0
-    player_score = 0
+function change_score() {
+    let score_text = document.querySelector("#score")
+    score_text.textContent = (`Player: ${player_score} Computer: ${computer_score}`)
 
-    while (computer_score < 5 && player_score < 5) {
-        let score_text = document.querySelector("#score")
-        score_text.textContent = (`Player: ${player_score} Computer: ${computer_score}`)
-        console.log(computer_score, player_score)
-        //let player_guess = prompt("Rock, paper, or scissors: ")
-        //let outcome = oneRound(player_guess, getComputerChoice())
+    if (player_score == 5) {
+        const body = document.querySelector("body")
+        const player_win = document.createElement("div")
+        player_win.textContent = "Player wins! Congrats!"
+        body.append(player_win)
+    } 
 
-        let outcome = button_click
-        if (outcome == "player_win") {
-            player_score = player_score + 1
-        }
-
-        else if (outcome == "computer_win") {
-            computer_score = computer_score + 1
-        }
+    else if (computer_score == 5) {
+        const body = document.querySelector("body")
+        const comp_win = document.createElement("div")
+        comp_win.textContent = "Computer wins! The machines will destroy us :-(."
+        body.append(comp_win)
     }
 
-    if (computer_score == 5) {
-        console.log("Computer wins!")
-    }
-
-    else if (player_score == 5) {
-        console.log("Player wins!")
+    else {
+        
     }
 }
 
-function button_click() {
-    const rock_btn = document.querySelector("#rock")
-    rock_btn.addEventListener('click', oneRound("Rock"))
-
-    const paper_btn = document.querySelector("#paper")
-    paper_btn.addEventListener('click', oneRound("Paper"))
-
-    const scissors_btn = document.querySelector("#scissors")
-    scissors_btn.addEventListener('click', oneRound("Scissors"))
-    //outcome = document.getElementById("paper").addEventListener("click", () => { oneRound("Paper") })
-    //outcome = document.getElementById("scissors").addEventListener("click", () => { oneRound("Scissors") })
-    //return outcome
-}
 
 const rock_btn = document.querySelector("#rock")
 rock_btn.addEventListener('click', () => { oneRound("rock") })
@@ -109,3 +97,4 @@ paper_btn.addEventListener('click', () => { oneRound("paper") })
 
 const scissors_btn = document.querySelector("#scissors")
 scissors_btn.addEventListener('click', () => { oneRound("scissors") })
+
